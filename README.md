@@ -3,11 +3,26 @@
 
 ## Training Environment
 
-The model was trained using an on-demand cloud computing service with the following specifications:
+The model was trained using an on-demand cloud computing service with the following detailed specifications:
 
+- **Operating System**: Ubuntu Linux 5.15.0-97-generic (x86_64)
+- **Processor (CPU)**: 16 vCore, x86_64 architecture
 - **GPU**: NVIDIA A100 80GB PCIe
-- **CPU**: 16 vCore
-- **Memory**: 192GB RAM
+  - **Driver Version**: 535.183.06
+  - **CUDA Version**: 12.2
+  - **cuDNN Version**: 9.1.0
+- **Memory (RAM)**: 192GB
+- **Python Version**: 3.10.13 (GCC 11.3.0)
+- **Python Executable Path**: `/usr/local/bin/python`
+
+### Python Libraries
+
+Key Python libraries used in training:
+
+- `torch==2.6.0`
+- `torchvision==0.21.0`
+- `numpy==2.2.3`
+- `matplotlib==3.10.1`
 
 ## Dataset
 
