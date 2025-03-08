@@ -3,7 +3,7 @@
 
 ## Training Environment
 
-The model was trained on a system with the following specifications:
+TThe model was trained using an on-demand cloud computing service with the following specifications:
 
 - **GPU**: NVIDIA A100 80GB PCIe
 - **CPU**: 16 vCore
