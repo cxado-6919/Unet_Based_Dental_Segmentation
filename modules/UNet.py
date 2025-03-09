@@ -1,4 +1,4 @@
-# unet.py
+# Dropout층을 추가한 U-net 클래스 모듈
 import torch
 import torch.nn as nn
 import torchvision.transforms as transforms
