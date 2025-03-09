@@ -3,7 +3,7 @@
 
 ## Training Environment
 
-The model was trained using an on-demand cloud computing service with the following detailed specifications:
+The model was trained using an cloud computing service with the following detailed specifications:
 
 - **Operating System**: Ubuntu Linux 5.15.0-97-generic (x86_64)
 - **Processor (CPU)**: 16 vCore, x86_64 architecture
