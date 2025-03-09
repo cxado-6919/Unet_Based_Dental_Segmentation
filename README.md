@@ -13,7 +13,6 @@ The model was trained using an on-demand cloud computing service with the follow
   - **cuDNN Version**: 9.1.0
 - **Memory (RAM)**: 192GB
 - **Python Version**: 3.10.13 (GCC 11.3.0)
-- **Python Executable Path**: `/usr/local/bin/python`
 
 ### Python Libraries
 
