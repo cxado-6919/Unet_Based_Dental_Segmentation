@@ -5,7 +5,7 @@ import torchvision.transforms as transforms
 
 
 class UNet(nn.Module):
-    def __init__(self, in_channels=3, out_channels=32, features=[64, 128, 256, 512], dropout_p=0.3):
+    def __init__(self, in_channels=3, out_channels=32, features=[64, 128, 256, 512]):
         super().__init__()
         self.downsampling = nn.ModuleList()
         self.upsampling = nn.ModuleList()
@@ -18,7 +18,6 @@ class UNet(nn.Module):
                     nn.ReLU(inplace=True),
                     nn.Conv2d(feature, feature, kernel_size=3, padding=1),
                     nn.ReLU(inplace=True),
-                    nn.Dropout2d(p=dropout_p)
                 )
             )
             prev_channels = feature
@@ -28,7 +27,6 @@ class UNet(nn.Module):
             nn.ReLU(inplace=True),
             nn.Conv2d(features[-1] * 2, features[-1] * 2, kernel_size=3, padding=1),
             nn.ReLU(inplace=True),
-            nn.Dropout2d(p=dropout_p)
         )
 
         for feature in reversed(features):
@@ -41,7 +39,6 @@ class UNet(nn.Module):
                     nn.ReLU(inplace=True),
                     nn.Conv2d(feature, feature, kernel_size=3, padding=1),
                     nn.ReLU(inplace=True),
-                    nn.Dropout2d(p=dropout_p)
                 )
             )
 
