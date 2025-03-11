@@ -1,9 +1,10 @@
 # Unet_Based_Dental_Segmentation
  Project to develop dental X-ray segmentation models using U-Net and U-Net+ architectures, aiming to accurately segment individual teeth from dental images.
 
-## Training Environment
+## Code Execution Environment
 
-The model was trained using an cloud computing service with the following detailed specifications:
+
+The code was executed in a cloud computing environment configured with the following specifications:
 
 - **Operating System**: Ubuntu Linux 5.15.0-97-generic (x86_64)
 - **Processor (CPU)**: 16 vCore, x86_64 architecture
