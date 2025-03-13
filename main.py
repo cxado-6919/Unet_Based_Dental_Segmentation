@@ -1,16 +1,17 @@
 import os
 import torch
 from torch.utils.data import DataLoader, random_split
-from data import XRayDataset, get_train_transform, get_val_test_transform
-from train import train_model
-from utils import set_seed
+from modules.data import XRayDataset, get_train_transform, get_val_test_transform
+from modules.train import train_model
+from modules.utils import set_seed
+from modules.visualize import visualize_prediction
 
-# seed 설정 (재현성을 위해)
+# seed 설정 
 set_seed(42)
 
-# 데이터셋 경로 설정 (자신의 경로에 맞게 수정)
-images_dir = '/home/elicer/.cache/kagglehub/datasets/humansintheloop/teeth-segmentation-on-dental-x-ray-images/versions/1/Teeth Segmentation PNG/d2/img'
-masks_dir = '/home/elicer/.cache/kagglehub/datasets/humansintheloop/teeth-segmentation-on-dental-x-ray-images/versions/1/Teeth Segmentation PNG/d2/masks_machine'
+# 데이터셋 경로 설정 
+images_dir = 'your_path_here'
+masks_dir = 'your_path_here'
 
 # 데이터셋 생성 및 분할
 full_dataset = XRayDataset(images_dir, masks_dir, transform=get_train_transform())
@@ -30,7 +31,7 @@ train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, nu
 val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=4)
 test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, num_workers=4)
 
-# 모델 생성 (이미 modules/UNet.py에 정의된 UNet 사용)
+# 모델 생성 
 from modules.UNet import UNet
 num_classes = 32
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -44,7 +45,7 @@ model = train_model(model, train_loader, val_loader, num_epochs, device, checkpo
 # 테스트 평가
 model.eval()
 test_loss = 0.0
-from losses import CombinedLoss
+from modules.losses import CombinedLoss
 criterion = CombinedLoss(weight_ce=1.0, weight_dice=1.0)
 with torch.no_grad():
     for images, masks in test_loader:
@@ -55,3 +56,9 @@ with torch.no_grad():
         test_loss += loss.item()
 avg_test_loss = test_loss / len(test_loader)
 print(f"Test Loss: {avg_test_loss:.4f}")
+
+
+mean = [0.3439, 0.3439, 0.3439]  
+std = [0.2127, 0.2127, 0.2127]  
+
+visualize_prediction(model, test_dataset, device, num_classes, mean, std)
