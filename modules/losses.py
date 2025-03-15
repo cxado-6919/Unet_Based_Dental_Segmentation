@@ -29,3 +29,20 @@ class CombinedLoss(nn.Module):
         ce_loss = self.ce(pred, target)
         d_loss = dice_loss(pred, target)
         return self.weight_ce * ce_loss + self.weight_dice * d_loss
+
+# 성능이 가장 좋은 모델을 저장하기 위해 이용하는 지표인 IOU 계산 함수
+def iou_score(pred, target, num_classes):
+    pred = pred.view(-1)
+    target = target.view(-1)
+    ious = []
+    for cls in range(num_classes):
+        pred_inds = (pred == cls)
+        target_inds = (target == cls)
+        intersection = (pred_inds & target_inds).float().sum().item()
+        union = pred_inds.float().sum().item() + target_inds.float().sum().item() - intersection
+        if union == 0:
+            continue
+        ious.append(intersection / union)
+    if len(ious) == 0:
+        return 0
+    return np.mean(ious)

@@ -1,7 +1,7 @@
 import torch
 import torch.optim as optim
-from modules.utils import iou_score, EarlyStopping
-from modules.losses import CombinedLoss
+from modules.utils import EarlyStopping
+from modules.losses import CombinedLoss, iou_score
 import numpy as np
 import matplotlib.pyplot as plt
 
