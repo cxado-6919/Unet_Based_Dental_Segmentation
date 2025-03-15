@@ -8,7 +8,13 @@ from albumentations import Compose, Resize, Normalize
 from albumentations.pytorch import ToTensorV2
 from modules.UNet import UNet
 
-# Test 시 사용할 albumentations 기반 transform (data.py의 transform과 유사하게 구성)
+"""
+모델을 학습하는 데에 kaggle의 Teeth Segmentation on dental X-ray images Dataset을 사용하였고
+해당 파일에서는 Mendeley Data의 Panoramic Dental X-rays With Segmented Mandibles Dataset의 X-ray 이미지를 이용하여
+main에서 학습된 모델로 마스크를 예측.
+"""
+
+# Test 시 사용할 transform
 test_transform = Compose([
     Resize(256, 256),
     Normalize(mean=[0.3439, 0.3439, 0.3439], std=[0.2127, 0.2127, 0.2127]),
@@ -28,17 +34,15 @@ class TestDataset(torch.utils.data.Dataset):
     def __getitem__(self, idx):
         image_id = self.image_ids[idx]
         image_path = os.path.join(self.images_dir, image_id)
-        # 이미지를 RGB로 읽어온 후 numpy 배열로 변환
         image = np.array(Image.open(image_path).convert("RGB"))
         if self.transform:
-            # albumentations transform은 dict 형태로 결과를 반환
             image = self.transform(image=image)['image']
         return image
 
 # 모델 생성 및 체크포인트 불러오기
 num_classes = 32
 model = UNet(in_channels=3, out_channels=num_classes)
-checkpoint_path = "Unet_segmentation_model.pth"  # main.py에서 저장한 checkpoint 파일 이름
+checkpoint_path = "best_model_checkpoint.pth"  # main.py에서 저장한 checkpoint 파일 이름
 state_dict = torch.load(checkpoint_path, map_location='cpu')
 model.load_state_dict(state_dict)
 
@@ -63,7 +67,7 @@ with torch.no_grad():
 # 모델 출력에서 가장 높은 확률을 갖는 클래스 선택
 pred_mask = torch.argmax(output, dim=1).squeeze(0)
 
-# 정규화를 원래 픽셀 값으로 복원하는 함수 (visualize.py의 unnormalize_image와 유사)
+# 정규화를 원래 픽셀 값으로 복원하는 함수 
 def unnormalize(img_tensor, mean, std):
     img_np = img_tensor.cpu().numpy().transpose(1, 2, 0)
     mean = np.array(mean)

@@ -2,7 +2,10 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
-
+"""
+U-net 논문 원문에서는 pixel-wise softmax와 cross-entropy loss를 적용하였지만, 불균형한 데이터에 취약하다는 단점이 있으므로
+성능이 더 우수한 CombinedLoss(Binary cross-entropy loss + Dice loss)를 적용함
+"""
 def dice_loss(pred, target, smooth=1e-6):
     num_classes = pred.shape[1]
     pred_soft = F.softmax(pred, dim=1)

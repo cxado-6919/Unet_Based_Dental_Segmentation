@@ -3,10 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def unnormalize_image(img_tensor, mean, std):
-    """
-    정규화된 이미지를 원래 스케일로 복원.
-    img_tensor: (C, H, W)
-    """
+    # 정규화된 이미지를 원래 스케일로 복원.
+
     img_np = img_tensor.cpu().numpy().transpose(1, 2, 0)
     mean = np.array(mean)
     std = np.array(std)
@@ -15,9 +13,7 @@ def unnormalize_image(img_tensor, mean, std):
     return img_np
 
 def visualize_prediction(model, dataset, device, num_classes, mean, std):
-    """
-    dataset에서 랜덤 샘플을 선택해서 원본 이미지, 실제 마스크, 예측 마스크, 그리고 오버레이 이미지를 시각화.
-    """
+    # dataset에서 랜덤 샘플을 선택해서 원본 이미지, 실제 마스크, 예측 마스크, 그리고 오버레이 이미지를 시각화.
     import random
     model.eval()
     rand_idx = random.randint(0, len(dataset)-1)

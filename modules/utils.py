@@ -2,6 +2,7 @@ import numpy as np
 import torch
 import random
 
+# 성능이 가장 좋은 모델을 저장하기 위해 이용하는 지표인 IOU 계산 함수
 def iou_score(pred, target, num_classes):
     pred = pred.view(-1)
     target = target.view(-1)
@@ -18,6 +19,7 @@ def iou_score(pred, target, num_classes):
         return 0
     return np.mean(ious)
 
+# 시드 설정 함수
 def set_seed(seed):
     random.seed(seed)
     np.random.seed(seed)
@@ -25,6 +27,7 @@ def set_seed(seed):
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed)
 
+# 손실률 감소가 일정 에포크동안 발생하지 않을 때 조기 종료를 위한 EarlyStopping 클래스
 class EarlyStopping:
     def __init__(self, patience, verbose=False, delta=0.001):
         self.patience = patience
